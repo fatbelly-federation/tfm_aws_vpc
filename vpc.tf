@@ -1,3 +1,10 @@
+# list of AZs for the region we are working in
+# https://www.terraform.io/docs/providers/aws/d/availability_zones.html
+data "aws_availability_zones" "available" {
+  state = "available"
+}
+
+
 module "vpc" {
   # pin module source to a specific version to avoid surprises
   # ref: https://www.terraform.io/docs/modules/sources.html#selecting-a-revision
@@ -5,7 +12,10 @@ module "vpc" {
 
   name                              = "${var.vpc_name}"
   cidr                              = "${var.vpc_cidr_block}"
-  azs                               = "${var.vpc_azs}"
+  # this clever split bit was found at
+  # https://github.com/hashicorp/terraform/issues/12453#issuecomment-284273475
+  # it gets us around the "conditional operator cannot be used with list values" errors
+  azs                               = ["${split(",", var.auto_pick_azs ? join(",", data.aws_availability_zones.available.names) : join(",", var.vpc_azs))}"]
   private_subnets                   = "${var.private_subnets}"
   public_subnets                    = "${var.public_subnets}"
   enable_dns_hostnames              = "${var.enable_dns_hostnames}"

@@ -21,8 +21,15 @@ variable "vpc_cidr_block" {
 variable "vpc_azs" {
   description = "A list of Availability Zones to use"
   type        = "list"
+  default     = []
+  # default to an empty list, so we can safely default to letting terraform discover
+  # the available AZs for the region we are building in
 }
 
+variable "auto_pick_azs" {
+  description = "automatically lookup AZs for the region and use them"
+  default = true
+}
 variable "public_subnets" { 
   type = "list"
   description = "list of CIDRs that will used for our public subnets"
