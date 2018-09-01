@@ -15,7 +15,7 @@ module "vpc" {
   # this clever split bit was found at
   # https://github.com/hashicorp/terraform/issues/12453#issuecomment-284273475
   # it gets us around the "conditional operator cannot be used with list values" errors
-  azs                               = ["${split(",", var.auto_pick_azs ? join(",", data.aws_availability_zones.available.names) : join(",", var.vpc_azs))}"]
+  azs                               = ["${split(",", length(var.vpc_azs) > 0 ? join(",", var.vpc_azs) : join(",", data.aws_availability_zones.available.names))}"]
   private_subnets                   = "${var.private_subnets}"
   public_subnets                    = "${var.public_subnets}"
   enable_dns_hostnames              = "${var.enable_dns_hostnames}"
@@ -23,6 +23,8 @@ module "vpc" {
   enable_nat_gateway                = "${var.enable_nat_gateway}"
   single_nat_gateway                = "${var.single_nat_gateway}"
   one_nat_gateway_per_az            = "${var.one_nat_gateway_per_az}"
+  # ipv6 support is very minimal
+  # see https://github.com/terraform-aws-modules/terraform-aws-vpc/pull/21
   assign_generated_ipv6_cidr_block  = "${var.enable_ipv6}"
   enable_s3_endpoint                = "${var.enable_s3_endpoint}"
   
