@@ -12,7 +12,7 @@ output "vpc_name" {
 }
 
 output "vpc_azs" {
-  value = "${var.vpc_azs}"
+  value = "${local.azs}"
 }
 
 output "vpc_cidr_block" {

@@ -4,6 +4,10 @@ data "aws_availability_zones" "available" {
   state = "available"
 }
 
+# using locals here to provide an output for AZs
+locals {
+  azs = ["${split(",", length(var.vpc_azs) > 0 ? join(",", var.vpc_azs) : join(",", data.aws_availability_zones.available.names))}"]
+}
 
 module "vpc" {
   # pin module source to a specific version to avoid surprises
