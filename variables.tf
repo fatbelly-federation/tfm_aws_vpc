@@ -95,6 +95,17 @@ variable "enable_s3_endpoint" {
     # ref: https://docs.aws.amazon.com/vpc/latest/userguide/vpc-endpoints.html
 }
 
+variable "enable_dynamodb_endpoint" {
+  default = false
+  description = "provision a DynamoDB endpoint within the VPC"
+  # ref: https://docs.aws.amazon.com/vpc/latest/userguide/vpc-endpoints.html
+}
+
+variable "enable_vpn_gateway" {
+  default = false
+  description = "provision a VPN Gateway and attach it to the VPC"
+}
+
 variable "enable_dhcp_options" {
   default = false
   description = "Override default DHCP options?"

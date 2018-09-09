@@ -30,8 +30,14 @@ module "vpc" {
   # ipv6 support is very minimal
   # see https://github.com/terraform-aws-modules/terraform-aws-vpc/pull/21
   assign_generated_ipv6_cidr_block  = "${var.enable_ipv6}"
+
+  # VPC Endpoints
   enable_s3_endpoint                = "${var.enable_s3_endpoint}"
-  
+  enable_dynamodb_endpoint          = "${var.enable_dynamodb_endpoint}"
+
+  # VPN Gateway
+  enable_vpn_gateway                = "${var.enable_vpn_gateway}"
+
   # enable_dhcp_options defaults to false
   enable_dhcp_options               = "${var.enable_dhcp_options}"
 
